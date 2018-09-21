@@ -30,14 +30,14 @@ function display_end()
 end
 
 function write_marks()
-    local file = io.open('marks.txt', 'w')
+    local file = io.open('endpoints.txt', 'w')
     for i=1,math.min(#starts, #ends),1 do
         file:write(string.format('%f,%f\n', starts[i], ends[i]))
     end
     file:close()
 end
 
-mp.add_key_binding("[", "display_start", display_start)
-mp.add_key_binding("]", "display_end", display_end)
+mp.add_key_binding(";", "display_start", display_start)
+mp.add_key_binding("'", "display_end", display_end)
 
 mp.register_event("shutdown", write_marks)
