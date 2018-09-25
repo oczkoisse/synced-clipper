@@ -30,11 +30,13 @@ function display_end()
 end
 
 function write_marks()
-    local file = io.open('endpoints.txt', 'w')
-    for i=1,math.min(#starts, #ends),1 do
-        file:write(string.format('%f,%f\n', starts[i], ends[i]))
+    if math.min(#starts, #ends) > 0 then
+        local file = io.open('endpoints.txt', 'w')
+        for i=1,math.min(#starts, #ends),1 do
+            file:write(string.format('%f,%f\n', starts[i], ends[i]))
+        end
+        file:close()
     end
-    file:close()
 end
 
 mp.add_key_binding(";", "display_start", display_start)
