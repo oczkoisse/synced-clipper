@@ -43,16 +43,16 @@ end
 function forget_last()
     if state == '[' then
         table.remove(starts)
-        mp.osd_message('Reset')
     elseif state == ']' then
         table.remove(starts)
         table.remove(ends)
-        mp.osd_message('Reset')
     end
     if #starts == 0 then
         state = nil
+        mp.osd_message('Reset')
     else
         state = ']'
+        mp.osd_message(string.format('%.2f - %.2f', starts[#starts], ends[#ends]), osd_duration)
     end
 end
 
