@@ -40,7 +40,24 @@ function write_marks()
     end
 end
 
+function forget_last()
+    if state == '[' then
+        table.remove(starts)
+        mp.osd_message('Reset')
+    elseif state == ']' then
+        table.remove(starts)
+        table.remove(ends)
+        mp.osd_message('Reset')
+    end
+    if #starts == 0 then
+        state = nil
+    else
+        state = ']'
+    end
+end
+
 mp.add_key_binding(";", "display_start", display_start)
 mp.add_key_binding("'", "display_end", display_end)
+mp.add_key_binding(":", "forget_last", forget_last)
 
 mp.register_event("shutdown", write_marks)
