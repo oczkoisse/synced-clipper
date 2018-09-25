@@ -6,12 +6,35 @@ function print_usage
     echo "Usage: clipper <path_to_video1> <path_to_video2>"
 }
 
+function has_audio
+{
+    if [ ! -z "$1" ]
+    then
+        result=$(ffprobe -i "$1" -show_streams -select_streams a -loglevel error)
+        if [ ! -z "$result" ]
+        then
+            echo "true"
+        fi
+    fi
+    echo "false"
+}
+
 if [ -z "$1" -o -z "$2" -o ! -f "$1" -o ! -f "$2" ]; then
     print_usage
 else
+    vid1_has_audio=$(has_audio "$1")
+    vid2_has_audio=$(has_audio "$2")
+    
+    if [[ vid1_has_audio = "true" && vid_2_has_audio = "true" ]]
+    then
+        mix_audio="; [aid1][aid2]amix[ao]"
+    else
+        mix_audio=""
+    fi
+    
     fname=$(basename "$1")
     fname=${fname%.*}
-    mpv --script="./mark.lua" --lavfi-complex="[vid2]scale=iw/3:ih/3 [pip]; [vid1][pip] overlay=main_w-overlay_w-10:10 [vo]; [aid1][aid2]amix[ao]" "$1" --external-file="$2"
+    mpv --script="./mark.lua" --lavfi-complex="[vid2]scale=iw/3:ih/3 [pip]; [vid1][pip] overlay=main_w-overlay_w-10:10 [vo]${mix_audio}" "$1" --external-file="$2"
     if [ -f endpoints.txt ]
     then
         while IFS=',' read start_ts stop_ts
