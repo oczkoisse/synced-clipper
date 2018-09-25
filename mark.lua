@@ -2,17 +2,18 @@ local mp = require "mp"
 
 starts, ends = {}, {}
 state = nil
+osd_duration = 500
 
 function display_start()
     local time_pos = mp.get_property_number("time-pos")
     if state == nil or state == ']' then
         table.insert(starts, time_pos)
-        mp.osd_message(string.format('Begin %f', time_pos))
+        mp.osd_message(string.format('%.2f -', time_pos), osd_duration)
         state = '['
     elseif state == '[' then
         table.remove(starts)
         table.insert(starts, time_pos)
-        mp.osd_message(string.format('Reset begin %f', time_pos))
+        mp.osd_message(string.format('%.2f -', time_pos), osd_duration)
     end
 end
 
@@ -20,12 +21,12 @@ function display_end()
     local time_pos = mp.get_property_number("time-pos")
     if state == '[' then
         table.insert(ends, time_pos)
-        mp.osd_message(string.format('End %f', time_pos))
+        mp.osd_message(string.format('%.2f - %.2f', starts[#starts], time_pos), osd_duration)
         state = ']'
     elseif state == ']' then
         table.remove(ends)
         table.insert(ends, time_pos)
-        mp.osd_message(string.format('Reset end %f', time_pos))
+        mp.osd_message(string.format('%.2f - %.2f', starts[#starts], time_pos), osd_duration)
     end
 end
 
