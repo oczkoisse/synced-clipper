@@ -8,28 +8,24 @@ function print_usage
 
 function has_audio
 {
-    if [ ! -z "$1" ]
+    if [[ "$1" != "" ]]
     then
         result=$(ffprobe -i "$1" -show_streams -select_streams a -loglevel error)
-        if [ ! -z "$result" ]
+        if [[ "$result" != "" ]]
         then
-            echo "true"
+            true
+            return
         fi
     fi
-    echo "false"
+    false
 }
 
-if [ -z "$1" -o -z "$2" -o ! -f "$1" -o ! -f "$2" ]; then
+if [[ "$1" == "" || "$2" == "" || ! -f "$1" || ! -f "$2" ]]; then
     print_usage
 else
-    vid1_has_audio=$(has_audio "$1")
-    vid2_has_audio=$(has_audio "$2")
-    
-    if [[ vid1_has_audio = "true" && vid_2_has_audio = "true" ]]
+    if has_audio "$1" && has_audio "$2"
     then
-        mix_audio="; [aid1][aid2]amix[ao]"
-    else
-        mix_audio=""
+        mix_audio="; [aid1][aid2]amerge=inputs=2,pan=stereo|c0<c0+c2|c1<c1+c3[ao]"
     fi
     
     fname=$(basename "$1")
