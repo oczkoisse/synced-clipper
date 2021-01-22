@@ -4,8 +4,6 @@ If you need to watch two videos simulaneously, so that you can extract clips of 
 
 ## Getting Started
 
-Clone the repository to get a copy.
-
 ### Prerequisites
 
 - **mpv** You can get a binary for your distro from the official [website](https://mpv.io/). Alternatively, you can also install it directly using your distro's package manager, if available
@@ -20,9 +18,6 @@ apt-get install mpv ffmpeg
 ### Installing
 
 Just clone the repository to get a copy.
-```
-git clone https://github.com/oczkoisse/clipper.git
-```
 
 ### Usage
 Start the clipper by providing the paths to the two videos.
