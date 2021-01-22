@@ -1,4 +1,4 @@
-# clipper
+# synced-clipper
 
 If you need to watch two videos simulaneously, so that you can extract clips of interesting parts from it, then this tool is for you. 
 
